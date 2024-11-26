@@ -1,34 +1,54 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import Header from './components/Header';
+import Bookshelf from './components/Bookshelf';
+import axios from 'axios';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [books, setBooks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        console.log("Starting fetch");
+        
+        const response = await axios.get("https://seussology.info/api/books");
+        console.log("API Response:", response.data);
+        
+        if (Array.isArray(response.data)) {
+          setBooks(response.data);
+        } else {
+          console.error("Unexpected data structure:", response.data);
+          setBooks([]); // Set empty array if data doesn't match expectations
+        }
+      } catch (error) {
+        console.error("Error fetching books:", error.message);
+        setError(error.message);
+        setBooks([]); // Set empty array if fetch fails
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Header />
+      {isLoading ? (
+        <p>Loading books...</p>
+      ) : error ? (
+        <p>Error: {error}</p>
+      ) : books.length === 0 ? (
+        <p>No books available</p>
+      ) : (
+        <Bookshelf listOfBooks={books} />
+      )}
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
