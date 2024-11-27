@@ -1,0 +1,23 @@
+.book-info{
+    display: flex;
+    flex-direction: row;
+
+    padding: 5em;
+
+}
+
+
+img{
+    background-size: contain;
+    background: 100 100;
+
+    width: 40vw;
+    height: 80vh;
+}
+
+
+h3{
+    font-weight: 700;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 2rem;
+}

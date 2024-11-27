@@ -1,0 +1,22 @@
+.q-container{
+
+    height: 100vh;
+
+    padding: 3em;
+
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.quote{
+    border: solid 2px black;
+    height: 8em;
+    width: 70%;
+
+    padding: 2em;
+
+    display: flex;
+    flex-direction: column;
+    
+}

@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Bookshelf from './components/Bookshelf';
+import Quotes from './components/Quotes';
 import axios from 'axios';
+import BookInfo from './components/BookInfo';
+import { Route, Routes } from 'react-router-dom';
 
 function App() {
   const [books, setBooks] = useState([]);
@@ -21,12 +24,12 @@ function App() {
           setBooks(response.data);
         } else {
           console.error("Unexpected data structure:", response.data);
-          setBooks([]); // Set empty array if data doesn't match expectations
+          setBooks([]);
         }
       } catch (error) {
         console.error("Error fetching books:", error.message);
         setError(error.message);
-        setBooks([]); // Set empty array if fetch fails
+        setBooks([]);
       } finally {
         setIsLoading(false);
       }
@@ -38,15 +41,14 @@ function App() {
   return (
     <div className="App">
       <Header />
-      {isLoading ? (
-        <p>Loading books...</p>
-      ) : error ? (
-        <p>Error: {error}</p>
-      ) : books.length === 0 ? (
-        <p>No books available</p>
-      ) : (
-        <Bookshelf listOfBooks={books} />
-      )}
+
+      <Routes>
+        <Route path="/" element={<Bookshelf listOfBooks={books} />} />
+        <Route path="/book/:id" element={<BookInfo bookToDisplay={books}/>} />
+        <Route path="/quotes" element={<Quotes />} />
+      </Routes>
+      
+  
     </div>
   );
 }

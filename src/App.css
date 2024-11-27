@@ -2,22 +2,6 @@
   width: 100vw;
 }
 
-nav{
-  width: 100vw;
-  padding: .3em;
-}
-
-ul{
-  width: 100vw;
-  height: 10vh;
-  display: flex;
-  flex-direction: row;
-}
-
-
-ul p{
-  margin-left: 2em;
-}
 
 main{
   width: 100vw;
